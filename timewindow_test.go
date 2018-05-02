@@ -7,7 +7,9 @@ import (
 
 func Test_timeWindow(t *testing.T) {
 	type args struct {
-		conf config
+		t     time.Time
+		open  time.Time
+		close time.Time
 	}
 	tests := []struct {
 		name    string
@@ -16,58 +18,51 @@ func Test_timeWindow(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			args: args{
-				conf: config{},
-			},
+			args: args{},
 			want: true,
 			name: "empty",
 		},
 		{
 			args: args{
-				conf: config{
-					Open:  time.Now().Add(time.Minute * 5),
-					Close: time.Now().Add(time.Minute * 1),
-				},
+				t:     time.Now(),
+				open:  time.Now().Add(time.Minute * 5),
+				close: time.Now().Add(time.Minute * 1),
 			},
 			want: false,
 			name: "Window is closed and spans midnight",
 		},
 		{
 			args: args{
-				conf: config{
-					Open:  time.Now().Add(time.Minute * -3),
-					Close: time.Now().Add(time.Minute * -5),
-				},
+				t:     time.Now(),
+				open:  time.Now().Add(time.Minute * -3),
+				close: time.Now().Add(time.Minute * -5),
 			},
 			want: true,
 			name: "Window is open and spans midnight",
 		},
 		{
 			args: args{
-				conf: config{
-					Open:  time.Now().Add(time.Minute * -1),
-					Close: time.Now().Add(time.Minute * 2),
-				},
+				t:     time.Now(),
+				open:  time.Now().Add(time.Minute * -1),
+				close: time.Now().Add(time.Minute * 2),
 			},
 			want: true,
 			name: "Window is open",
 		},
 		{
 			args: args{
-				conf: config{
-					Open:  time.Now(),
-					Close: time.Now(),
-				},
+				t:     time.Now(),
+				open:  time.Now(),
+				close: time.Now(),
 			},
 			want: true,
 			name: "Same Entries",
 		},
 		{
 			args: args{
-				conf: config{
-					Open:  time.Now().Add(time.Minute * 1),
-					Close: time.Now().Add(time.Minute * 3),
-				},
+				t:     time.Now(),
+				open:  time.Now().Add(time.Minute * 1),
+				close: time.Now().Add(time.Minute * 3),
 			},
 			want: false,
 			name: "Window opens 1 minute from now",
@@ -75,7 +70,7 @@ func Test_timeWindow(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := windowOpen(tt.args.conf)
+			got := WindowOpen(tt.args.t, tt.args.open, tt.args.close)
 			if got != tt.want {
 				t.Errorf("windowOpen = %v, want %v", got, tt.want)
 			}

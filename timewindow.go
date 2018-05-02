@@ -4,25 +4,16 @@ import (
 	"time"
 )
 
-type config struct {
-	Open  time.Time
-	Close time.Time
-}
-
-func readConfig() {
-
-}
-
-func windowOpen(conf config) bool {
+func WindowOpen(t, open, close time.Time) bool {
 
 	now := time.Now()
 
 	t1 := time.Date(now.Year(), now.Month(), now.Day(),
-		conf.Open.Hour(), conf.Open.Minute(),
+		open.Hour(), open.Minute(),
 		0, 0, time.Local).Unix()
 
 	t2 := time.Date(now.Year(), now.Month(), now.Day(),
-		conf.Close.Hour(), conf.Close.Minute(),
+		close.Hour(), close.Minute(),
 		0, 0, time.Local).Unix()
 
 	if t1 >= t2 {
