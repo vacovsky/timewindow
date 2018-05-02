@@ -17,13 +17,10 @@ func Test_timeWindow(t *testing.T) {
 	}{
 		{
 			args: args{
-				conf: config{
-					Open:  time.Now(),
-					Close: time.Now(),
-				},
+				conf: config{},
 			},
 			want: true,
-			name: "same",
+			name: "empty",
 		},
 		{
 			args: args{
@@ -32,7 +29,7 @@ func Test_timeWindow(t *testing.T) {
 					Close: time.Now().Add(time.Minute * 1),
 				},
 			},
-			want: true,
+			want: false,
 			name: "Window is closed and spans midnight",
 		},
 		{
