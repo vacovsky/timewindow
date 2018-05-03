@@ -12,28 +12,27 @@ import (
 // A return value of True means the submitted time is inside the open window.
 func WindowOpen(t, open, close time.Time) bool {
 
-	now := time.Now()
-	uNow := now.Unix()
+	tu := t.Unix()
 
 	// times matched or were nil - bail out
 	if open.Unix() == close.Unix() {
 		return true
 	}
 
-	t1 := time.Date(now.Year(), now.Month(), now.Day(),
+	t1 := time.Date(t.Year(), t.Month(), t.Day(),
 		open.Hour(), open.Minute(),
 		0, 0, time.Local).Unix()
 
-	t2 := time.Date(now.Year(), now.Month(), now.Day(),
+	t2 := time.Date(t.Year(), t.Month(), t.Day(),
 		close.Hour(), close.Minute(),
 		0, 0, time.Local).Unix()
 
 	if t2 >= t1 {
 		// case: window open and close are same day
-		return (uNow >= t1 && uNow <= t2)
+		return (tu >= t1 && tu <= t2)
 	} else if t1 >= t2 {
 		// case: window spans midnight, window is open before t1 and after t2
-		return (uNow >= t1 || uNow <= t2)
+		return (tu >= t1 || tu <= t2)
 	}
 
 	return false
