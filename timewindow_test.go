@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+// daeuihfuiseghfiusghui
 func Test_timeWindow(t *testing.T) {
 	type args struct {
 		t     time.Time
@@ -72,7 +73,7 @@ func Test_timeWindow(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			log.Println(tt.name, tt.args.t.Unix(), tt.args.open.Unix(), tt.args.close.Unix())
-			got := WindowOpen(tt.args.t, tt.args.open, tt.args.close)
+			got := BetweenTimes(tt.args.t, tt.args.open, tt.args.close)
 			if got != tt.want {
 				t.Errorf("windowOpen = %v, want %v", got, tt.want)
 			}
