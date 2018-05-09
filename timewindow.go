@@ -29,10 +29,10 @@ func BetweenTimes(t, open, close time.Time) bool {
 
 	if t2 >= t1 {
 		// case: window open and close are same day
-		return (tu >= t1 && tu <= t2)
+		return (tu >= t1 && tu < t2)
 	} else if t1 >= t2 {
 		// case: window spans midnight, window is open before t1 and after t2
-		return (tu >= t1 || tu <= t2)
+		return (tu > t1 || tu <= t2)
 	}
 
 	return false
