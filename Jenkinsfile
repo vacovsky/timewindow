@@ -27,7 +27,7 @@ node {
 
     stage('Static Code Analysis') {
         String inclusions = '*.go,**/*.go'
-        String exclusions = 'go/*'
+        String exclusions = 'go/'
         String testInclusions = '*_test.go,**/*_test.go'
         sq.GoScan(inclusions, exclusions, testInclusions, sonarqubeServer, sonarqubeKey, project)
     }
